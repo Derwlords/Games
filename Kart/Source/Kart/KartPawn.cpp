@@ -176,7 +176,7 @@ void AKartPawn::EnableIncarView(const bool bState, const bool bForce)
 		
 		if (bState == true)
 		{
-			OnResetVR();
+			
 			Camera->Deactivate();
 			InternalCamera->Activate();
 		}
