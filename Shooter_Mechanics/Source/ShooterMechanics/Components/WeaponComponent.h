@@ -33,6 +33,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Recoil")
 	class UCurveFloat* HorizontalCurve;
 
+	UFUNCTION()
+	void StartHorizontalRecoil(float value);
+	UFUNCTION()
+	void StartVerticalRecoil(float value);
+
 	void StartRecoil();
 
 	void EndRecoil();

@@ -4,14 +4,14 @@
 
 #include "CoreMinimal.h"
 
-#include "GameFramework/Character.h"
+#include "ShooterMechanics/BaseCharacter/BaseCharacter.h"
 #include "ShooterPlayerClass.generated.h"
 
 class AGrenade;
 class UPlayerMovementComponent;
 class USpringArmComponent;
 UCLASS()
-class SHOOTERMECHANICS_API  AShooterPlayerClass : public ACharacter
+class SHOOTERMECHANICS_API  AShooterPlayerClass : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -32,10 +32,7 @@ public:
 
 
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = EnemyHealth)
-		float Health = 0.f;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = EnemyHealth)
-		float Armor = 0.f;
+
 	virtual float TakeDamage
 	(
 		float DamageAmount,
@@ -57,19 +54,6 @@ public:
 
 	
 
-	UFUNCTION()
-		void StartHorizontalRecoil(float value);
-	UFUNCTION()
-		void StartVerticalRecoil(float value);
-
-	
-
-	void PlayerDead();
-
-	
-
-	
-
 	UPROPERTY(VisibleAnywhere,Category = Grenade)
 		AGrenade* Grenade;
 
@@ -79,8 +63,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Grenade)
 		UAnimMontage* TossGrenadeMontage;
 
-	UPROPERTY(VisibleDefaultsOnly,BlueprintReadOnly, Category = Health)
-		class UHealthComponent* HealthComponent;
+
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Health)
 		class UWeaponComponent* WeaponComponent;
@@ -102,11 +85,6 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Rate)
 		float LookUpRate = 30.f;
 
-	UPROPERTY(EditDefaultsOnly, Category = Health)
-		float MaxHealth = 100.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = Health)
-		float MaxArmor = 100.f;
 
 	
 
@@ -133,7 +111,7 @@ private:
 
 	
 	FTimerHandle SprintTimer;
-	FTimerHandle PlayerDeathTimer;
+	
 	
 	FTimerHandle GrenadeToss;
 
@@ -151,7 +129,7 @@ private:
 	
 
 	
-	void DestroyPlayer();
+	
 	void SwitchToNextPrimaryWeapon();
 	void EquipItem();
 
@@ -176,4 +154,9 @@ private:
 
 
 	void OnStartReload();
+
+
+
+
+	virtual void Death() override;
 };

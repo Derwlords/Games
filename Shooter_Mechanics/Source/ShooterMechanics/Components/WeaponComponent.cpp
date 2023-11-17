@@ -234,3 +234,20 @@ void UWeaponComponent::Reload()
 	bIsReloading = false;
 	
 }
+void UWeaponComponent::StartHorizontalRecoil(float value)
+{
+	if (!Player)
+	{
+		return;
+	}
+	Player->AddControllerYawInput(value);
+}
+
+void UWeaponComponent::StartVerticalRecoil(float value)
+{
+	if (!Player)
+	{
+		return;
+	}
+	Player->AddControllerPitchInput(value);
+}

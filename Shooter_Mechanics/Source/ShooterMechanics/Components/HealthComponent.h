@@ -27,7 +27,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyHealth)
 		float Health = 0.f;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = EnemyHealth)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyHealth)
 		float Armor = 0.f;
 
 	float GetMaxHealth() { return MaxHealth; }

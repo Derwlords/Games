@@ -22,7 +22,7 @@ AShooterPlayerClass::AShooterPlayerClass()
 	SpringArm->SetupAttachment(RootComponent);
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
-	HealthComponent = CreateAbstractDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("MovementComponent"));
 	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("WeaponComponent"));
 	PlayerMovementComponent->SetPlayerMovementComponent(GetCharacterMovement());
@@ -35,31 +35,17 @@ AShooterPlayerClass::AShooterPlayerClass()
 // Called when the game starts or when spawned
 void AShooterPlayerClass::BeginPlay()
 {
-
-	
 	Player_HUD = CreateWidget(GetWorld(), HUD);
+
 	Super::BeginPlay();
-
-
-	
-	
-	
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	
-
-
+	
 	if (Player_HUD)
 	{
 		Player_HUD->AddToViewport();
 	}
-	
-	
-
-
-	
-
-
 
 }
 
@@ -152,10 +138,6 @@ void AShooterPlayerClass::StopFire()
 
 
 
-void AShooterPlayerClass::DestroyPlayer()
-{
-	Destroy();
-}
 
 void AShooterPlayerClass::SwitchToNextPrimaryWeapon()
 {
@@ -232,6 +214,7 @@ void AShooterPlayerClass::StopZoom()
 	}
 	WeaponComponent->StopZoom();
 }
+
 void AShooterPlayerClass::GrenadeTossMontage()
 {
 	USkeletalMeshComponent* PlayerMesh = GetMesh();
@@ -250,35 +233,36 @@ void AShooterPlayerClass::ThrowGrenade()
 {
 	if (Grenade)
 	{
-
-	
 		Grenade->OnReleased(UKismetMathLibrary::GetForwardVector(GetControlRotation()));
-
-
 
 	}
 }
 
 void AShooterPlayerClass::HoldGreande()
 {
-	if (Grenadeclass)
+	if (!Grenadeclass || !GrenadeMontage)
 	{
-		Grenade = GetWorld()->SpawnActor<AGrenade>(Grenadeclass);
-		if (Grenade)
-		{
-			USkeletalMeshComponent* PlayerMesh = GetMesh();
-			Grenade->AttachToComponent(PlayerMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrenadeSpawn"));
-			if (UAnimInstance* AnimInstance = PlayerMesh->GetAnimInstance())
-			{
-				if (GrenadeMontage)
-				{
-					/*Gun->SetActorHiddenInGame(true);*/
-					AnimInstance->Montage_Play(GrenadeMontage);
-
-				}
-			}
-		}
+		return;
 	}
+
+	Grenade = GetWorld()->SpawnActor<AGrenade>(Grenadeclass);
+
+	if (!Grenade)
+	{
+		return;
+	}
+	USkeletalMeshComponent* PlayerMesh = GetMesh();
+	Grenade->AttachToComponent(PlayerMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrenadeSpawn"));
+
+
+	if (UAnimInstance* AnimInstance = PlayerMesh->GetAnimInstance())
+	{
+	/*Gun->SetActorHiddenInGame(true);*/
+	AnimInstance->Montage_Play(GrenadeMontage);
+
+	}
+		
+	
 	FTimerHandle GunHiden;
 	GetWorld()->GetTimerManager().SetTimer(GunHiden, this, &AShooterPlayerClass::ShowGun, 2);
 	
@@ -292,6 +276,10 @@ void AShooterPlayerClass::ShowGun()
 
 void AShooterPlayerClass::Sprint()
 {
+	if (!PlayerMovementComponent)
+	{
+		return;
+	}
 	PlayerMovementComponent->Sprint();
 }
 
@@ -322,12 +310,9 @@ void AShooterPlayerClass::ChangeFireMode()
 
 
 
-void AShooterPlayerClass::PlayerDead()
+void AShooterPlayerClass::Death()
 {
-	if (HealthComponent->IsDead())
-	{
-		GetWorldTimerManager().SetTimer(PlayerDeathTimer, this, &AShooterPlayerClass::DestroyPlayer, 1, false);
-	}
+	
 }
 
 
@@ -335,25 +320,21 @@ void AShooterPlayerClass::PlayerDead()
 
 float AShooterPlayerClass::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	float DamageAplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
-	DamageAplied = FMath::Min(Health, DamageAplied);
-	Health -= DamageAplied;
-	if (!Health || Health < 0)
+	if (!HealthComponent)
 	{
-	GetWorldTimerManager().SetTimer(PlayerDeathTimer, this, &AShooterPlayerClass::DestroyPlayer, 1,false);
+		return 0.f;
+	}
+	float DamageAplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	DamageAplied = FMath::Min(HealthComponent->Health, DamageAplied);
+	HealthComponent->Health -= DamageAplied;
+	if (!HealthComponent->Health || HealthComponent->Health < 0)
+	{
+	GetWorldTimerManager().SetTimer(DeathTimer, this, &AShooterPlayerClass::DestroyCharacter, 1,false);
 	}
 	return DamageAplied;
 }
 
 
 
-void AShooterPlayerClass::StartHorizontalRecoil(float value)
-{
-	AddControllerYawInput(value);
-}
 
-void AShooterPlayerClass::StartVerticalRecoil(float value)
-{
-	AddControllerPitchInput(value);
-}
 

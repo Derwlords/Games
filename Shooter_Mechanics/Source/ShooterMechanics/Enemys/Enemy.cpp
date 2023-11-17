@@ -82,7 +82,7 @@ void AEnemy::ApplyDamage()
 	if (Player)
 	{
 		Player->HealthComponent->DealDamage(DamageValue);
-		Player->PlayerDead();
+	/*	Player->PlayerDead();*/
 	}
 }
 
