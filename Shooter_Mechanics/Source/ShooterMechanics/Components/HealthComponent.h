@@ -25,10 +25,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyHealth)
-		float Health = 0.f;
+	float Health = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = EnemyHealth)
-		float Armor = 0.f;
+	float Armor = 0.f;
 
 	float GetMaxHealth() { return MaxHealth; }
 	float GetArmor() { return MaxArmor; }
@@ -36,7 +36,7 @@ public:
 	void DealDamage(float Damage);
 
 	UFUNCTION(BlueprintPure)
-	bool IsDead() const;
+	void IsDead() const;
 
 
 private:

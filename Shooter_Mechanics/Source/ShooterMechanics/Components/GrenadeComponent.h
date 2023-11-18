@@ -25,30 +25,32 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-
-	UFUNCTION(BlueprintCallable, Category = Grenade)
-	void ThrowGrenade();
-
-	UPROPERTY(VisibleAnywhere, Category = Grenade)
-	AGrenade* Grenade;
-
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-	UAnimMontage* GrenadeMontage;
-
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-	UAnimMontage* TossGrenadeMontage;
-
 	void HoldGrenade();
 	void GrenadeToss();
 
 private:
+	UPROPERTY(VisibleAnywhere, Category = "Grenade")
+	AGrenade* Grenade;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Grenade")
+	UAnimMontage* GrenadeMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Grenade")
+	UAnimMontage* TossGrenadeMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Grenade")
+	TSubclassOf<AGrenade> Grenadeclass;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Grenade")
+	float TimeUntilThrow;
+
 	class AShooterPlayerClass* Player;
 
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-	TSubclassOf<AGrenade> Grenadeclass;
 
 	FTimerHandle GrenadeTossTimerHandle;
 
+	UFUNCTION(BlueprintCallable)
+	void ThrowGrenade();
 	
 
 	void ShowGun();

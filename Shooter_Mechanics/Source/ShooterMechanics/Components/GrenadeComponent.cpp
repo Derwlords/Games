@@ -15,7 +15,7 @@ UGrenadeComponent::UGrenadeComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	TimeUntilThrow = 1.85;
 }
 
 
@@ -79,7 +79,7 @@ void UGrenadeComponent::GrenadeToss()
 
 		Player->GetWeaponComponent()->GetGun()->SetActorHiddenInGame(true);
 		AnimInstance->Montage_Play(TossGrenadeMontage);
-		GetWorld()->GetTimerManager().SetTimer(GrenadeTossTimerHandle, this, &UGrenadeComponent::ThrowGrenade, 1.85f);
+		GetWorld()->GetTimerManager().SetTimer(GrenadeTossTimerHandle, this, &UGrenadeComponent::ThrowGrenade, TimeUntilThrow);
 
 
 	}

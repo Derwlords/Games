@@ -33,6 +33,8 @@ AShooterPlayerClass::AShooterPlayerClass()
 
 	WeaponIndex = 0;
 	IsOverlappingItem = false;
+	TurnRate = 30.f;
+	LookUpRate = 30.f;
 	
 }
 
@@ -46,11 +48,12 @@ void AShooterPlayerClass::BeginPlay()
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	
 	
-	if (Player_HUD)
+	if (!Player_HUD)
 	{
-		Player_HUD->AddToViewport();
+		return;
 	}
 
+		Player_HUD->AddToViewport();
 }
 
 // Called every frame
@@ -281,7 +284,7 @@ void AShooterPlayerClass::ChangeFireMode()
 
 void AShooterPlayerClass::Death()
 {
-	
+	//TO DO Player Death
 }
 
 

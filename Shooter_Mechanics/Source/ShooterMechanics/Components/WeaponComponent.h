@@ -47,11 +47,6 @@ public:
 
 	void Zoom();
 	void StopZoom();
-
-	
-
-
-
 	
 	void StartFire();
 	void StopFire();
@@ -59,6 +54,7 @@ public:
 	void ChangeFireMode();
 	
 	void OnStartReload();
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Reload)
 	bool bIsReloading;
 
@@ -92,22 +88,11 @@ private:
 	void Reload();
 
 
-	
-
 	UPROPERTY(EditDefaultsOnly, Category = Gun)
 	TSubclassOf<AGun> Gunclass;
 
 	UPROPERTY(VisibleDefaultsOnly, Category = Gun)
 	AGun* Gun;
-
-	
-
-
-
-
-	
-	
-	
 
 	FTimeline RecoilTimeLine;
 

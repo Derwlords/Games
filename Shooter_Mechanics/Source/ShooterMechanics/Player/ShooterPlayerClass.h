@@ -33,7 +33,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
-
+	virtual void Death() override;
 
 	virtual float TakeDamage
 	(
@@ -42,25 +42,22 @@ public:
 		AController* EventInstigator,
 		AActor* DamageCauser
 	) override;
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
-		void SwitchWeaponMesh(int32 index);
+	void SwitchWeaponMesh(int32 index);
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Items")
-		bool IsOverlappingItem;
+	bool IsOverlappingItem;
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
 	void TriggerOutOfAmmoPopUp();
 
 	UPROPERTY( BlueprintReadWrite, Category = HUD)
-		UUserWidget* Player_HUD;
-
-	
-
-
-
+	UUserWidget* Player_HUD;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Health)
-		class UWeaponComponent* WeaponComponent;
+	UWeaponComponent* WeaponComponent;
+
 
 	FORCEINLINE	USpringArmComponent* GetSpringArmComponent() {return SpringArm;}
 	FORCEINLINE UPlayerMovementComponent* GetPLayerMovementComponent() { return PlayerMovementComponent; }
@@ -79,42 +76,26 @@ private:
 	UGrenadeComponent* GrenadeComponent;
 
 
-		
-
+	UPROPERTY(EditDefaultsOnly, Category = Rate)
+	float TurnRate;
 
 	UPROPERTY(EditDefaultsOnly, Category = Rate)
-		float TurnRate = 30.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = Rate)
-		float LookUpRate = 30.f;
+	float LookUpRate;
 
 
 	
 
 	UPROPERTY(EditDefaultsOnly, Category = HUD)
-		TSubclassOf<class UUserWidget> HUD;
-	
-	
-	
+	TSubclassOf<class UUserWidget> HUD;
 	
 
 	/*UPROPERTY(EditDefaultsOnly, Category = Gun)
 		TArray<AGun*> Weapons;*/
 
-	
 
-	
-
-	
-
-	
 	FTimerHandle SprintTimer;
-	
-	
-	
 
-
-	int32 WeaponIndex;
+	
 	
 	void LookUp(float value);
 	void Turn(float value);
@@ -124,6 +105,8 @@ private:
 
 	void Sprint();
 
+
+	int32 WeaponIndex;
 
 	void SwitchToNextPrimaryWeapon();
 	void EquipItem();
@@ -147,7 +130,7 @@ private:
 	void GrenadeToss();
 
 
-	virtual void Death() override;
+	
 
 	
 };

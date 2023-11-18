@@ -2,7 +2,7 @@
 
 
 #include "HealthComponent.h"
-
+#include "ShooterMechanics/Player/ShooterPlayerClass.h"
 // Sets default values for this component's properties
 UHealthComponent::UHealthComponent()
 {
@@ -43,13 +43,13 @@ void UHealthComponent::DealDamage(float Damage)
 	}
 }
 
-bool UHealthComponent::IsDead() const
+void UHealthComponent::IsDead() const
 {
-	if ( Health <= 0)
+	if ( Health > 0)
 	{
-		return true;
+		return;
 	}
-	return false;
+	Cast<AShooterPlayerClass>(GetOwner())->Death();
 }
 
 
