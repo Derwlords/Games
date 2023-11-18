@@ -8,10 +8,10 @@
 #include "Blueprint/UserWidget.h"
 #include "ShooterMechanics/Weapons/Grenade.h"
 #include "Components/PrimitiveComponent.h"
-#include "Kismet/KismetMathLibrary.h"
 #include "ShooterMechanics/Components/HealthComponent.h"
 #include "ShooterMechanics/Components/PlayerMovementComponent.h"
 #include "ShooterMechanics/Components/WeaponComponent.h"
+#include "ShooterMechanics/Components/GrenadeComponent.h"
 // Sets default values
 AShooterPlayerClass::AShooterPlayerClass()
 {
@@ -24,8 +24,12 @@ AShooterPlayerClass::AShooterPlayerClass()
 	Camera->SetupAttachment(SpringArm);
 
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("MovementComponent"));
-	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("WeaponComponent"));
 	PlayerMovementComponent->SetPlayerMovementComponent(GetCharacterMovement());
+
+	WeaponComponent = CreateDefaultSubobject<UWeaponComponent>(TEXT("WeaponComponent"));
+
+	GrenadeComponent = CreateDefaultSubobject<UGrenadeComponent>(TEXT("GrenadeComponent"));
+	
 
 	WeaponIndex = 0;
 	IsOverlappingItem = false;
@@ -68,8 +72,8 @@ void AShooterPlayerClass::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AShooterPlayerClass::StartFire);
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &AShooterPlayerClass::StopFire);
 
-	PlayerInputComponent->BindAction("Grenade Toss", IE_Pressed, this, &AShooterPlayerClass::HoldGreande);
-	PlayerInputComponent->BindAction("Grenade Toss", IE_Released, this, &AShooterPlayerClass::GrenadeTossMontage);
+	PlayerInputComponent->BindAction("Grenade Toss", IE_Pressed, this, &AShooterPlayerClass::HoldGrenade);
+	PlayerInputComponent->BindAction("Grenade Toss", IE_Released, this, &AShooterPlayerClass::GrenadeToss);
 
 	PlayerInputComponent->BindAction("Zoom", IE_Pressed, this, &AShooterPlayerClass::Zoom);
 	PlayerInputComponent->BindAction("Zoom", IE_Released, this, &AShooterPlayerClass::StopZoom);
@@ -215,64 +219,29 @@ void AShooterPlayerClass::StopZoom()
 	WeaponComponent->StopZoom();
 }
 
-void AShooterPlayerClass::GrenadeTossMontage()
-{
-	USkeletalMeshComponent* PlayerMesh = GetMesh();
-	if (UAnimInstance* AnimInstance = PlayerMesh->GetAnimInstance())
-	{
-		if (GrenadeMontage)
-		{
-			/*Gun->SetActorHiddenInGame(true);*/
-			AnimInstance->Montage_Play(TossGrenadeMontage);
-			GetWorld()->GetTimerManager().SetTimer(GrenadeToss, this, &AShooterPlayerClass::ThrowGrenade, 1.85f);
 
-		}
-	}
-}
-void AShooterPlayerClass::ThrowGrenade()
-{
-	if (Grenade)
-	{
-		Grenade->OnReleased(UKismetMathLibrary::GetForwardVector(GetControlRotation()));
 
-	}
-}
 
-void AShooterPlayerClass::HoldGreande()
+void AShooterPlayerClass::HoldGrenade()
 {
-	if (!Grenadeclass || !GrenadeMontage)
+	if (!GrenadeComponent)
 	{
 		return;
 	}
+	GrenadeComponent->HoldGrenade();
+}
 
-	Grenade = GetWorld()->SpawnActor<AGrenade>(Grenadeclass);
-
-	if (!Grenade)
+void AShooterPlayerClass::GrenadeToss()
+{
+	if (!GrenadeComponent)
 	{
 		return;
 	}
-	USkeletalMeshComponent* PlayerMesh = GetMesh();
-	Grenade->AttachToComponent(PlayerMesh, FAttachmentTransformRules::SnapToTargetNotIncludingScale, FName("GrenadeSpawn"));
-
-
-	if (UAnimInstance* AnimInstance = PlayerMesh->GetAnimInstance())
-	{
-	/*Gun->SetActorHiddenInGame(true);*/
-	AnimInstance->Montage_Play(GrenadeMontage);
-
-	}
-		
-	
-	FTimerHandle GunHiden;
-	GetWorld()->GetTimerManager().SetTimer(GunHiden, this, &AShooterPlayerClass::ShowGun, 2);
-	
+	GrenadeComponent->GrenadeToss();
 }
 
 
-void AShooterPlayerClass::ShowGun()
-{
-	/*Gun->SetActorHiddenInGame(false);*/
-}
+
 
 void AShooterPlayerClass::Sprint()
 {
@@ -314,6 +283,7 @@ void AShooterPlayerClass::Death()
 {
 	
 }
+
 
 
 

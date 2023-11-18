@@ -7,9 +7,11 @@
 #include "ShooterMechanics/BaseCharacter/BaseCharacter.h"
 #include "ShooterPlayerClass.generated.h"
 
-class AGrenade;
+
 class UPlayerMovementComponent;
 class USpringArmComponent;
+class UWeaponComponent;
+class UGrenadeComponent;
 UCLASS()
 class SHOOTERMECHANICS_API  AShooterPlayerClass : public ABaseCharacter
 {
@@ -54,14 +56,6 @@ public:
 
 	
 
-	UPROPERTY(VisibleAnywhere,Category = Grenade)
-		AGrenade* Grenade;
-
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-		UAnimMontage* GrenadeMontage;
-
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-		UAnimMontage* TossGrenadeMontage;
 
 
 
@@ -70,13 +64,22 @@ public:
 
 	FORCEINLINE	USpringArmComponent* GetSpringArmComponent() {return SpringArm;}
 	FORCEINLINE UPlayerMovementComponent* GetPLayerMovementComponent() { return PlayerMovementComponent; }
-
+	FORCEINLINE UWeaponComponent* GetWeaponComponent() { return WeaponComponent; }
 private:
 	UPROPERTY(EditDefaultsOnly, Category = Camera)
-		class USpringArmComponent* SpringArm;
+	class USpringArmComponent* SpringArm;
 
 	UPROPERTY(EditDefaultsOnly, Category = Camera)
-		class UCameraComponent* Camera;
+	class UCameraComponent* Camera;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	UPlayerMovementComponent* PlayerMovementComponent;
+
+	UPROPERTY(VisibleDefaultsOnly)
+	UGrenadeComponent* GrenadeComponent;
+
+
+		
 
 
 	UPROPERTY(EditDefaultsOnly, Category = Rate)
@@ -100,63 +103,51 @@ private:
 
 	
 
-	UPROPERTY(EditDefaultsOnly, Category = Grenade)
-		TSubclassOf<AGrenade> Grenadeclass;
-
-	UFUNCTION(BlueprintCallable,Category = Grenade)
-		void ThrowGrenade();
-
 	
+
 	
 
 	
 	FTimerHandle SprintTimer;
 	
 	
-	FTimerHandle GrenadeToss;
+	
 
 
 	int32 WeaponIndex;
 	
 	void LookUp(float value);
 	void Turn(float value);
+
 	void MoveForward(float value);
 	void MoveRight(float value);
 
-	void StartFire();
+	void Sprint();
 
-	void StopFire();
-	
 
-	
-	
 	void SwitchToNextPrimaryWeapon();
 	void EquipItem();
+
+
 
 	void Zoom();
 	void StopZoom();
 
 	void ChangeFireMode();
-	
-	void HoldGreande();
-	void GrenadeTossMontage();
-	void ShowGun();
 
-
-
-	
-
-	UPROPERTY(VisibleDefaultsOnly)
-	UPlayerMovementComponent* PlayerMovementComponent;
-
-	void Sprint();
-
-
+	void StartFire();
+	void StopFire();
 
 	void OnStartReload();
 
+	
+	
 
+	void HoldGrenade();
+	void GrenadeToss();
 
 
 	virtual void Death() override;
+
+	
 };

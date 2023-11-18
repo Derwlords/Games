@@ -62,7 +62,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Reload)
 	bool bIsReloading;
 
-	
+	UFUNCTION(BlueprintCallable)
+	AGun* GetGun() { return Gun; }
 private:
 	AShooterPlayerClass* Player;
 
@@ -99,8 +100,7 @@ private:
 	UPROPERTY(VisibleDefaultsOnly, Category = Gun)
 	AGun* Gun;
 
-	UFUNCTION(BlueprintCallable)
-	AGun* GetGun() { return Gun; }
+	
 
 
 
