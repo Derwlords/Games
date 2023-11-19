@@ -41,8 +41,6 @@ void ABaseCharacter::DestroyCharacter()
 
 void ABaseCharacter::Death()
 {
-	if (HealthComponent->IsDead())
-	{
-		GetWorldTimerManager().SetTimer(DeathTimer, this, &ABaseCharacter::DestroyCharacter, TimeUntilDestroy, false);
-	}
+	GetWorldTimerManager().SetTimer(DeathTimer, this, &ABaseCharacter::DestroyCharacter, TimeUntilDestroy, false);
 }
+

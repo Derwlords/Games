@@ -284,6 +284,9 @@ void AShooterPlayerClass::ChangeFireMode()
 
 void AShooterPlayerClass::Death()
 {
+	
+	
+	
 	//TO DO Player Death
 }
 

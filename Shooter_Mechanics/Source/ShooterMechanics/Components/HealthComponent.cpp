@@ -10,7 +10,9 @@ UHealthComponent::UHealthComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	
+	MaxHealth = 100.f;
+	MaxArmor = 100.f;
+	Dead = false;
 }
 
 
@@ -43,13 +45,17 @@ void UHealthComponent::DealDamage(float Damage)
 	}
 }
 
-void UHealthComponent::IsDead() const
+void UHealthComponent::IsDead() 
 {
-	if ( Health > 0)
+	if ( Health >= 0)
 	{
 		return;
 	}
+
+	Dead = true;
+
 	Cast<AShooterPlayerClass>(GetOwner())->Death();
+	
 }
 
 

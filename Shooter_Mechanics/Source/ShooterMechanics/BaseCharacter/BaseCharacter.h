@@ -35,12 +35,14 @@ public:
 
 protected:
 
-	void DestroyCharacter();
+
 
 	FTimerHandle DeathTimer;
 
 	UPROPERTY(EditDefaultsOnly,Category = "Death")
 	float TimeUntilDestroy;
 
-	virtual void Death();
+	virtual void Death() ;
+
+	void DestroyCharacter();
 };

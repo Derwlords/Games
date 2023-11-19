@@ -61,10 +61,9 @@ void AGrenade::Explode()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Name Actor: %s"), *Actor->GetName());
 		Actor->FindComponentByClass<UHealthComponent>()->DealDamage(GrenadeDamage);
-		if (Actor->FindComponentByClass<UHealthComponent>()->IsDead())
-		{
-			Actor->Destroy();
-		}
+
+		Actor->FindComponentByClass<UHealthComponent>()->IsDead();
+		
 	}
 	Destroy();
 }

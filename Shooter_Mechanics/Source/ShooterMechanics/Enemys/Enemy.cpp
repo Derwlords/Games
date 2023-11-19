@@ -17,7 +17,7 @@ AEnemy::AEnemy()
 	DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Damage Collision"));
 	DamageCollision->SetupAttachment(RootComponent);
 
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("HealthComponent"));
+
 }
 
 // Called when the game starts or when spawned
@@ -49,7 +49,7 @@ float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AC
 	float DamageAplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
 	DamageAplied = FMath::Min(HealthComponent->Health, DamageAplied);
 	HealthComponent->Health -= DamageAplied;
-	EnemyIsDead();
+	Death();
 	return DamageAplied;
 }
 
@@ -63,7 +63,7 @@ void AEnemy::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveC
 	if (Player)
 	{
 	
-		EnemyIsDead();
+		Death();
 		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AEnemy::ApplyDamage, 0.5, true, 0.1);
 		
 	}
@@ -96,21 +96,18 @@ bool AEnemy::PlayerInDamageCollision()
 	return false;
 }
 
-void AEnemy::DestroyEnemy()
-{
-	Destroy();
-}
 
-void AEnemy::EnemyIsDead()
+
+void AEnemy::Death()
 {
-	if (HealthComponent->IsDead())
-	{
+	
 			DamageCollision->DestroyPhysicsState();
 			DamageCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 			APawn::DetachFromControllerPendingDestroy();
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			GetWorld()->GetTimerManager().SetTimer(EnemyDeathTimer, this, &AEnemy::DestroyEnemy, 2.2);
-	}
+
+			ABaseCharacter::Death();
+	
 }
 
 

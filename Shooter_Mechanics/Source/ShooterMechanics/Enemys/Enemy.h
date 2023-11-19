@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "ShooterMechanics/BaseCharacter/BaseCharacter.h"
 #include "Enemy.generated.h"
 
 UCLASS()
-class SHOOTERMECHANICS_API  AEnemy : public ACharacter
+class SHOOTERMECHANICS_API  AEnemy : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -43,8 +43,8 @@ public:
 	UFUNCTION()
 		void ApplyDamage();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = Grenade)
-		class UHealthComponent* HealthComponent;
+	
+		
 private:
 
 
@@ -63,7 +63,8 @@ private:
 	class AShooterPlayerClass* Player;
 	bool PlayerInCollisionBox;
 	bool PlayerInDamageCollision();
-	void DestroyEnemy();
-	void EnemyIsDead();
+	
+
+	virtual void Death() override;
 	
 };
