@@ -23,4 +23,33 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+
+private:
+
+	void SpawnEnemy();
+	void SpawnBoss();
+
+	UPROPERTY(EditAnywhere, Category = Enemy)
+	TSubclassOf<class AEnemy> Enemy;
+	UPROPERTY(EditAnywhere, Category = Enemy)
+	TSubclassOf<class ABoss> Boss;
+
+
+	UPROPERTY(EditAnywhere, Category = Health)
+	TSubclassOf<APawn> Heal;
+	UPROPERTY(EditAnywhere, Category = RandSpawn)
+	float Spawn_X_Min;
+	UPROPERTY(EditAnywhere, Category = RandSpawn)
+	float Spawn_X_Max;
+	UPROPERTY(EditAnywhere, Category = RandSpawn)
+	float Spawn_Y_Min;
+	UPROPERTY(EditAnywhere, Category = RandSpawn)
+	float Spawn_Y_Max;
+	UPROPERTY(EditAnywhere, Category = RandSpawn)
+	float Spawn_Z_Enemy;
+
+	UPROPERTY(EditAnywhere, Category = Enemy)
+	int32 MaxEnemySpawnAtOneTime;
+
+	FRotator SpawnRotation;
 };

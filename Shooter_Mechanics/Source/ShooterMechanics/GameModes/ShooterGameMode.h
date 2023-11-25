@@ -25,30 +25,13 @@ public:
 private:
 	void SpawnHeal();
 
-	void SpawnEnemy();
-	void SpawnBoss();
-	UPROPERTY(EditAnywhere, Category = Enemy)
-		TSubclassOf<class AEnemy> Enemy;
-	UPROPERTY(EditAnywhere, Category = Enemy)
-		TSubclassOf<class ABoss> Boss;
+	
+	
+	
 
-	UPROPERTY(EditAnywhere, Category = Health)
-		TSubclassOf<APawn> Heal;
-	UPROPERTY(EditAnywhere, Category = RandSpawn)
-		float Spawn_X_Min = -1000.f;
-	UPROPERTY(EditAnywhere, Category = RandSpawn)
-		float Spawn_X_Max = 1000.f;
-	UPROPERTY(EditAnywhere, Category = RandSpawn)
-		float Spawn_Y_Min = -1000.f;
-	UPROPERTY(EditAnywhere, Category = RandSpawn)
-		float Spawn_Y_Max = 1000.f;
-	UPROPERTY(EditAnywhere, Category = RandSpawn)
-		float Spawn_Z_Enemy = 194.f;
+	
 
-	UPROPERTY(EditAnywhere, Category = Enemy)
-		int32 MaxEnemySpawnAtOneTime = 5;
-
-	FRotator SpawnRotation;
+	
 
 
 
