@@ -17,7 +17,7 @@ AEnemy::AEnemy()
 	DamageCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("Damage Collision"));
 	DamageCollision->SetupAttachment(RootComponent);
 
-
+	Points = 20;
 }
 
 // Called when the game starts or when spawned
@@ -30,6 +30,7 @@ void AEnemy::BeginPlay()
 	
 	
 	DamageCollision->OnComponentEndOverlap.AddDynamic(this, &AEnemy::ClearTimer);
+
 
 	
 }
@@ -47,9 +48,11 @@ void AEnemy::Tick(float DeltaTime)
 float AEnemy::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	float DamageAplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+	Player = Cast<AShooterPlayerClass>(DamageCauser->GetOwner());
 	DamageAplied = FMath::Min(HealthComponent->Health, DamageAplied);
 	HealthComponent->Health -= DamageAplied;
-	Death();
+	HealthComponent->IsDead();
+	
 	return DamageAplied;
 }
 
@@ -100,13 +103,18 @@ bool AEnemy::PlayerInDamageCollision()
 
 void AEnemy::Death()
 {
-	
-			DamageCollision->DestroyPhysicsState();
-			DamageCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			APawn::DetachFromControllerPendingDestroy();
-			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	if (!Player)
+	{
+		return;
+	}
+	Player->AddPointsToThePlayer(Points);
 
-			ABaseCharacter::Death();
+	DamageCollision->DestroyPhysicsState();
+	DamageCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	APawn::DetachFromControllerPendingDestroy();
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	ABaseCharacter::Death();
 	
 }
 

@@ -43,7 +43,6 @@ public:
 	UFUNCTION()
 		void ApplyDamage();
 
-	
 		
 private:
 
@@ -65,6 +64,7 @@ private:
 	bool PlayerInDamageCollision();
 	
 
+	UFUNCTION(BlueprintCallable)
 	virtual void Death() override;
 	
 };

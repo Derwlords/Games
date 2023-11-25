@@ -32,7 +32,10 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Health)
 	UHealthComponent* HealthComponent;
 
+	virtual void Death();
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Points")
+	int32 Points;
 protected:
 
 
@@ -42,7 +45,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly,Category = "Death")
 	float TimeUntilDestroy;
 
-	virtual void Death() ;
+
 
 	void DestroyCharacter();
 };

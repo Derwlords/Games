@@ -47,14 +47,14 @@ void UHealthComponent::DealDamage(float Damage)
 
 void UHealthComponent::IsDead() 
 {
-	if ( Health >= 0)
+	if ( Health > 0)
 	{
 		return;
 	}
 
 	Dead = true;
 
-	Cast<AShooterPlayerClass>(GetOwner())->Death();
+	Cast<ABaseCharacter>(GetOwner())->Death();
 	
 }
 

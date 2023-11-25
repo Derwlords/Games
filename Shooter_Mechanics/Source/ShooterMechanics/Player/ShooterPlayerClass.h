@@ -59,10 +59,21 @@ public:
 	UWeaponComponent* WeaponComponent;
 
 
+	
+
+
 	FORCEINLINE	USpringArmComponent* GetSpringArmComponent() {return SpringArm;}
 	FORCEINLINE UPlayerMovementComponent* GetPLayerMovementComponent() { return PlayerMovementComponent; }
 	FORCEINLINE UWeaponComponent* GetWeaponComponent() { return WeaponComponent; }
+	FORCEINLINE void AddPointsToThePlayer(int32 AddedPoints) { Points += AddedPoints; }
+
+	UFUNCTION(BlueprintCallable)
+	FORCEINLINE int32 GetPlayerPoints(){ return Points; }
+
+	
 private:
+	
+
 	UPROPERTY(EditDefaultsOnly, Category = Camera)
 	class USpringArmComponent* SpringArm;
 

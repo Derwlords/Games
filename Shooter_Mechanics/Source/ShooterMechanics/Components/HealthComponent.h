@@ -38,7 +38,7 @@ public:
 
 	void DealDamage(float Damage);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void IsDead();
 
 

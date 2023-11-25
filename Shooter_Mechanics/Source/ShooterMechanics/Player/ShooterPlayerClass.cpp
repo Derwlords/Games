@@ -35,6 +35,8 @@ AShooterPlayerClass::AShooterPlayerClass()
 	IsOverlappingItem = false;
 	TurnRate = 30.f;
 	LookUpRate = 30.f;
+
+	Points = 0;
 	
 }
 
