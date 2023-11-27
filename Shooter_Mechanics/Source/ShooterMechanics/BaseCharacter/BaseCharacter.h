@@ -36,6 +36,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Points")
 	int32 Points;
+
+	FORCEINLINE UHealthComponent* GetHealthComponent() { return HealthComponent; }
+
 protected:
 
 

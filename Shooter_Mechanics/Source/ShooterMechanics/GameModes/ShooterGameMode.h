@@ -6,9 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "ShooterGameMode.generated.h"
 
-/**
- * 
- */
+class UUserWidget;
+
 UCLASS()
 class SHOOTERMECHANICS_API  AShooterGameMode : public AGameModeBase
 {
@@ -22,13 +21,15 @@ public:
 
 	AShooterGameMode();
 
+	
 private:
-	void SpawnHeal();
-
-	
-	
 	
 
+	
+	
+	
+	
+	void EndGame();
 	
 
 	

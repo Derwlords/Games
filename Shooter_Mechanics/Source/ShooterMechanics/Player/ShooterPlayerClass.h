@@ -12,6 +12,7 @@ class UPlayerMovementComponent;
 class USpringArmComponent;
 class UWeaponComponent;
 class UGrenadeComponent;
+class UHealthComponent;
 UCLASS()
 class SHOOTERMECHANICS_API  AShooterPlayerClass : public ABaseCharacter
 {
@@ -52,8 +53,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "HUD")
 	void TriggerOutOfAmmoPopUp();
 
-	UPROPERTY( BlueprintReadWrite, Category = HUD)
-	UUserWidget* Player_HUD;
+	
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Health)
 	UWeaponComponent* WeaponComponent;
@@ -65,6 +65,7 @@ public:
 	FORCEINLINE	USpringArmComponent* GetSpringArmComponent() {return SpringArm;}
 	FORCEINLINE UPlayerMovementComponent* GetPLayerMovementComponent() { return PlayerMovementComponent; }
 	FORCEINLINE UWeaponComponent* GetWeaponComponent() { return WeaponComponent; }
+	
 	FORCEINLINE void AddPointsToThePlayer(int32 AddedPoints) { Points += AddedPoints; }
 
 	UFUNCTION(BlueprintCallable)
@@ -82,6 +83,8 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly)
 	UPlayerMovementComponent* PlayerMovementComponent;
+	
+	
 
 	UPROPERTY(VisibleDefaultsOnly)
 	UGrenadeComponent* GrenadeComponent;
@@ -96,8 +99,7 @@ private:
 
 	
 
-	UPROPERTY(EditDefaultsOnly, Category = HUD)
-	TSubclassOf<class UUserWidget> HUD;
+	
 	
 
 	/*UPROPERTY(EditDefaultsOnly, Category = Gun)

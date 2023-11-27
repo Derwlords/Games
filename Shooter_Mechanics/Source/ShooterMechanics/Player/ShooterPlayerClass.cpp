@@ -43,19 +43,14 @@ AShooterPlayerClass::AShooterPlayerClass()
 // Called when the game starts or when spawned
 void AShooterPlayerClass::BeginPlay()
 {
-	Player_HUD = CreateWidget(GetWorld(), HUD);
+
 
 	Super::BeginPlay();
 
 	GetMesh()->HideBoneByName(TEXT("weapon_r"), EPhysBodyOp::PBO_None);
 	
 	
-	if (!Player_HUD)
-	{
-		return;
-	}
-
-		Player_HUD->AddToViewport();
+	
 }
 
 // Called every frame
