@@ -41,6 +41,6 @@ void ABaseCharacter::DestroyCharacter()
 
 void ABaseCharacter::Death()
 {
-	GetWorldTimerManager().SetTimer(DeathTimer, this, &ABaseCharacter::DestroyCharacter, TimeUntilDestroy, false);
+	GetWorldTimerManager().SetTimer(DeathTimer,this, &ABaseCharacter::DestroyCharacter, TimeUntilDestroy, false);
 }
 
