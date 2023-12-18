@@ -3,6 +3,7 @@
 
 #include "Grenade.h"
 #include "Components/SphereComponent.h"
+#include "ShooterMechanics/BaseCharacter/BaseCharacter.h"
 #include "ShooterMechanics/Components/HealthComponent.h"
 // Sets default values
 AGrenade::AGrenade()
@@ -60,9 +61,13 @@ void AGrenade::Explode()
 	for (AActor* Actor : OverlapingActors)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Name Actor: %s"), *Actor->GetName());
-		Actor->FindComponentByClass<UHealthComponent>()->DealDamage(GrenadeDamage);
 
-		Actor->FindComponentByClass<UHealthComponent>()->IsDead();
+		if (Cast<ABaseCharacter>(Actor))
+		{
+			Actor->FindComponentByClass<UHealthComponent>()->DealDamage(GrenadeDamage);
+
+		}
+	
 		
 	}
 	Destroy();

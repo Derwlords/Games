@@ -2,6 +2,7 @@
 
 
 #include "BaseCharacter.h"
+#include "ShooterMechanics/GameModes/ShooterGameMode.h"
 #include "ShooterMechanics/Components/HealthComponent.h"
 // Sets default values
 ABaseCharacter::ABaseCharacter()
@@ -34,13 +35,25 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 }
 
-void ABaseCharacter::DestroyCharacter()
-{
-	Destroy();
-}
+
 
 void ABaseCharacter::Death()
 {
-	GetWorldTimerManager().SetTimer(DeathTimer,this, &ABaseCharacter::DestroyCharacter, TimeUntilDestroy, false);
+	
+	TWeakObjectPtr<ABaseCharacter> PlayerDeathPTR(this);
+	AShooterGameMode* GameMode = GetWorld()->GetAuthGameMode<AShooterGameMode>();
+	if (GameMode)
+	{
+		GameMode->PawnKilled(this);
+	}
+	GetWorldTimerManager().SetTimer(DeathTimer,
+		FTimerDelegate::CreateLambda( [PlayerDeathPTR]()
+			{
+				if (PlayerDeathPTR.IsValid())
+				{
+					PlayerDeathPTR->Destroy();
+				}
+			}),
+		TimeUntilDestroy, false);
 }
 

@@ -81,6 +81,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Camera)
 	class UCameraComponent* Camera;
 
+
+	
 	UPROPERTY(VisibleDefaultsOnly)
 	UPlayerMovementComponent* PlayerMovementComponent;
 	

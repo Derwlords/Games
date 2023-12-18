@@ -21,7 +21,8 @@ public:
 
 	AShooterGameMode();
 
-	
+	 void PawnKilled(APawn* PawnKilled) ;
+
 private:
 	
 
@@ -29,7 +30,7 @@ private:
 	
 	
 	
-	void EndGame();
+	void EndGame(bool bIsPlayerWinner);
 	
 
 	

@@ -282,7 +282,7 @@ void AShooterPlayerClass::ChangeFireMode()
 void AShooterPlayerClass::Death()
 {
 	
-	
+	ABaseCharacter::Death();
 	
 	//TO DO Player Death
 }
@@ -302,7 +302,7 @@ float AShooterPlayerClass::TakeDamage(float DamageAmount, FDamageEvent const& Da
 	HealthComponent->Health -= DamageAplied;
 	if (!HealthComponent->Health || HealthComponent->Health < 0)
 	{
-	GetWorldTimerManager().SetTimer(DeathTimer, this, &AShooterPlayerClass::DestroyCharacter, 1,false);
+	GetWorldTimerManager().SetTimer(DeathTimer, this, &AShooterPlayerClass::Death, 1,false);
 	}
 	return DamageAplied;
 }

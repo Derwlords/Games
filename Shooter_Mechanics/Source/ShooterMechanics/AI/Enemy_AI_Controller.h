@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+
 #include "Enemy_AI_Controller.generated.h"
 
 /**
@@ -22,6 +23,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+
+	bool GetEnemyStatus();
 private:
 	APawn* Player;
 	UPROPERTY(EditAnywhere)

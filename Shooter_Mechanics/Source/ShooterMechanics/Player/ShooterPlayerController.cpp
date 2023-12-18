@@ -13,13 +13,12 @@ void AShooterPlayerController::BeginPlay()
 	Super::BeginPlay();
    
 
-    PlayerHUD = CreateWidget(this, HUDClass);
-    if (!PlayerHUD)
+    if (Cast<AShooterPlayerClass>(GetPawn()))
     {
-        return;
-    }
-        PlayerHUD->AddToViewport();
 
+       PlayerHUD = CreateWidget(this, HUDClass);
+       PlayerHUD->AddToViewport();
+    }
       
 
 }
@@ -35,7 +34,8 @@ void AShooterPlayerController::Tick(float DeltaTime)
 void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner)
 {
     Super::GameHasEnded(EndGameFocus, bIsWinner);
-    if (Cast<AShooterPlayerClass>(GetPawn())->GetPlayerPoints() == 100 && Cast<AShooterPlayerClass>(GetPawn())->GetHealthComponent()->Dead == false)
+
+    if (Cast<AShooterPlayerClass>(GetPawn())->GetPlayerPoints() == 100  )
     {
         PlayerHUD->RemoveFromViewport();
         UUserWidget* WinScreen = CreateWidget(this, WinScreenClass);
@@ -46,7 +46,7 @@ void AShooterPlayerController::GameHasEnded(AActor* EndGameFocus, bool bIsWinner
         WinScreen->AddToViewport();
      
     }
-    else
+    else if(!bIsWinner)
     {
         UUserWidget* LoseScreen = CreateWidget(this, LoseScreenClass);
         if (!LoseScreen)

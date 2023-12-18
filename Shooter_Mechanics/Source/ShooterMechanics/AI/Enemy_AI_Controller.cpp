@@ -4,6 +4,8 @@
 #include "Enemy_AI_Controller.h"
 #include "Kismet/GameplayStatics.h"
 #include "ShooterMechanics/Player/ShooterPlayerClass.h"
+#include "ShooterMechanics/Enemys/Enemy.h"
+#include "ShooterMechanics/Components/HealthComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 void AEnemy_AI_Controller::Tick(float DeltaTime)
@@ -17,6 +19,11 @@ void AEnemy_AI_Controller::Tick(float DeltaTime)
 		Player = UGameplayStatics::GetPlayerPawn(this, 0);
 
 	}
+}
+
+bool AEnemy_AI_Controller::GetEnemyStatus()
+{
+	return Cast<AEnemy>(GetPawn())->GetHealthComponent()->Dead;
 }
 
 void AEnemy_AI_Controller::BeginPlay()

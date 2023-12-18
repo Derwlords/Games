@@ -13,6 +13,8 @@ UHealthComponent::UHealthComponent()
 	MaxHealth = 100.f;
 	MaxArmor = 100.f;
 	Dead = false;
+	Health = MaxHealth;
+	Armor = MaxArmor;
 }
 
 
@@ -22,8 +24,7 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	
-	Health = MaxHealth;
-	Armor = MaxArmor;
+	
 }
 
 
@@ -41,7 +42,10 @@ void UHealthComponent::DealDamage(float Damage)
 	{
 		
 		Health += Armor;
+		IsDead();
 		Armor = 0;
+		
+
 	}
 }
 
